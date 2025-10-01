@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MVP Logger (GAS URL Input)</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 2rem; }
+    .row { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
+    input[type="text"] { width: 420px; padding: 0.5rem; }
+    button { padding: 0.6rem 0.9rem; cursor: pointer; }
+    #status { margin-top: 0.75rem; min-height: 1.25rem; color: #0366d6; }
+    .hint { color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>MVP Event Logger</h1>
 
+  <div class="row">
+    <label for="gasUrl"><strong>Apps Script Web App URL</strong></label>
+    <input id="gasUrl" type="text" placeholder="https://script.google.com/macros/s/xxxxxxxx/exec" />
+    <button id="saveUrl">Save URL</button>
+  </div>
+  <div class="hint">Paste your deployed Web App URL ending with /exec, then click Save URL.</div>
+
+  <hr />
+
+  <div class="row">
+    <button id="ctaA">Add to Bag (A)</button>
+    <button id="ctaB">Add to Bag (B)</button>
+    <button id="heartbeat">Heartbeat (ping)</button>
+  </div>
+
+  <div id="status"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
