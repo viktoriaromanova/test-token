@@ -1,1 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Review Analyzer</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+  :root{--bg:#0f172a;--card:#111827;--muted:#94a3b8;--accent:#22d3ee;--ok:#22c55e;--warn:#eab308;--bad:#ef4444;--text:#e5e7eb}
+  *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
+  body{margin:0;background:linear-gradient(180deg,#0b1220,#0a1426);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:20px}
+  .wrap{width:100%;max-width:860px}
+  .card{background:var(--card);border:1px solid #1f2937;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:18px}
+  h1{margin:0 0 12px;font-size:clamp(20px,3vw,28px);letter-spacing:.2px}
+  .row{display:grid;gap:12px}
+  .controls{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0 6px}
+  @media(min-width:640px){.controls{grid-template-columns:1.2fr repeat(3,1fr)}}
+  input,button,textarea{width:100%;border-radius:12px;border:1px solid #263243;background:#0b1220;color:var(--text)}
+  input,button{height:44px}
+  input{padding:0 12px}
+  button{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:.15s;border-color:#1f2a44}
+  button:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+  .btn-a{background:#0b1220}
+  .btn-b{background:linear-gradient(90deg,#0ea5e9,#22d3ee);color:#001018;border:0}
+  .btn-c{background:linear-gradient(90deg,#a78bfa,#60a5fa);color:#0a0a0a;border:0}
+  .grid{display:grid;gap:12px}
+  @media(min-width:840px){.grid{grid-template-columns:1.2fr .8fr}}
+  .pane{background:#0a1020;border:1px solid #1b253d;border-radius:14px;padding:12px}
+  .label{font-size:12px;color:var(--muted);letter-spacing:.3px;text-transform:uppercase;margin:0 0 6px}
+  #review{min-height:170px;resize:vertical;padding:10px 12px;line-height:1.45}
+  .result{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tile{display:flex;align-items:center;gap:8px;background:#0b1220;border:1px solid #1c2540;border-radius:12px;padding:10px 12px;min-height:48px}
+  .tile i{opacity:.9}
+  .val{font-weight:700}
+  .muted{color:var(--muted)}
+  .error{display:none;margin-top:10px;background:#1b0d12;border:1px solid #3b0f19;color:#fecaca;border-radius:12px;padding:10px 12px;white-space:pre-wrap}
+  .spin{display:none;place-items:center;gap:8px;margin:10px 0}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);animation:b 1s infinite ease-in-out}
+  .dot:nth-child(2){animation-delay:.15s}
+  .dot:nth-child(3){animation-delay:.3s}
+  @keyframes b{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+  .foot{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+  .small{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1><i class="fa-solid fa-magnifying-glass-chart"></i> Review Analyzer</h1>
+      <div class="row">
+        <div class="controls">
+          <input id="token" type="password" placeholder="Optional: Hugging Face API token"/>
+          <button id="btn-rand" class="btn-a"><i class="fa-solid fa-shuffle"></i> Select Random Review</button>
+          <button id="btn-sent" class="btn-b"><i class="fa-regular fa-thumbs-up"></i> Analyze Sentiment</button>
+          <button id="btn-noun" class="btn-c"><i class="fa-solid fa-font"></i> Count Nouns</button>
+        </div>
+
+        <div class="spin" id="spinner"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="muted small">Working...</span></div>
+
+        <div class="grid">
+          <div class="pane">
+            <div class="label">Review Text</div>
+            <textarea id="review" placeholder="Click “Select Random Review” to load a sample from reviews_test.tsv"></textarea>
+          </div>
+          <div class="pane">
+            <div class="label">Result</div>
+            <div class="result">
+              <div class="tile"><i class="fa-regular fa-face-smile"></i> <span class="muted">Sentiment:</span> <span id="sent" class="val">—</span></div>
+              <div class="tile"><i class="fa-solid fa-layer-group"></i> <span class="muted">Noun level:</span> <span id="noun" class="val">—</span></div>
+            </div>
+            <div class="foot">
+              <span class="small">Model: tiiuae/falcon-7b-instruct</span>
+              <span class="small">TSV via Papa Parse</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="error" class="error"></div>
+      </div>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script defer src="app.js"></script>
+</body>
+</html>
+<!-- :contentReference[oaicite:0]{index=0} -->
 
